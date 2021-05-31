@@ -1,0 +1,105 @@
+﻿@model IEnumerable<House_Rental_System.Models.Property_Details>
+@using System.Linq;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Customer1Layout.cshtml";
+}
+<head>
+    <!--Search script-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#search").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: 'AutoComplete',
+                        data: "{ 'prefix': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfCustomer").val(i.item.val);
+                },
+                minLength: 1
+            });
+        });
+    </script>
+    <style>
+        #search {
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            padding: 12px 15px 12px 15px;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm("Search", "Customer", FormMethod.Post))
+{
+    <input type="text" id="search" name="search" placeholder="search city" />
+    <input type="submit" id="btnSubmit" value="Submit" class="btn" style=" background-color: rgb(0 122 204); color: white;" />
+}
+
+<div class="container" style="margin-top:2%;">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-sm-4">
+                <div class="card">
+                    @{
+                        var images = item.Property_Images;
+                        if (images.Count > 0)
+                        {
+                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" ;">
+                                <div class="carousel-inner">
+                                    @{int i = 0;}
+                                    @foreach (var image in images)
+                                    {
+                                        i++;
+                                        var active = i == 1 ? "active" : "";
+                                        var base64 = Convert.ToBase64String(image.Image);
+                                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                        <div class="carousel-item @active">
+                                            <img class="d-block w-100" src="@imgsrc" alt="First slide" style="border-radius: 5px;">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Property_Name</h5>
+                        <p class="card-text zmdi zmdi-pin">  <b>Address</b>  @item.Property_Address , @item.Property_City (@item.Property_Pin)</p>
+                        <p class="card-text fa fa-bed">  <b>BHK</b>  @item.Property_Information.BHK</p><br />
+                        <p class="card-text fa fa-rupee">  <b>Deposit</b>  @item.Property_Information.Expected_Deposit</p><br />
+                        <p class="card-text fa fa-rupee">  <b>Rent</b>  @item.Property_Information.ExpectedRent</p><br />
+                        <a href="~/Customer/Details/@item.Property_Id" class="btn fa fa-envelope" style="background-color: rgb(0 122 204); color: white;">  Details</a>
+
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</div>

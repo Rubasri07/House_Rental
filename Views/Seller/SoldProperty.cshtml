@@ -1,0 +1,56 @@
+﻿@model IEnumerable<House_Rental_System.Models.Sold_Property>
+
+@{
+    ViewBag.Title = "SoldProperty";
+    Layout = "~/Views/Shared/_SellerLayout.cshtml";
+}
+
+<div class="table-responsive">
+    <table class="table table-success table-striped" style="margin-top:1%;">
+        <tr>
+            <th>
+                Deposit
+
+            </th>
+            <th>
+                Rent
+
+            </th>
+            <th>
+                Date of Sale
+
+            </th>
+            <th>
+                Customer Name
+
+            </th>
+            <th>
+                Property Type
+
+            </th>
+            
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deposit_Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rental_Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_of_Sale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Details.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Property_Details.Property_Type)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

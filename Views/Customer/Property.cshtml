@@ -1,0 +1,69 @@
+﻿@model IEnumerable<House_Rental_System.Models.Property_Details>
+
+@{
+    ViewBag.Title = "Property";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<div class="table-responsive">
+    <table class="table table-success table-striped" style="margin-top:1%;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_Pin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Property_Status)
+            </th>
+            <th></th><th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_Pin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property_Status)
+        </td>
+
+        <td>
+            <a href="~/Customer/DeleteRequest/@item.Property_Id" class="btn btn-secondary">Delete</a>
+        </td>
+        <td>
+            <a href="~/Customer/Details/@item.Property_Id" class="btn btn-secondary">Details</a>
+        </td>
+    </tr>
+        }
+
+    </table>
+</div>
